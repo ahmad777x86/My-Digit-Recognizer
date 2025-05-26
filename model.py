@@ -1,34 +1,38 @@
-import tensorflow as tf
-import keras 
+import torch
+import torch.nn as nn
 import numpy as np
 import matplotlib.pyplot as plt
+import mnist
 
 
 # Data Loading
 
-(x_train,y_train),(x_test,y_test) = keras.datasets.mnist.load_data()
+x_train = mnist.train_images
+y_train = mnist.train_labels
 
+x_test= mnist.test_images
+y_test = mnist.test_labels
 
 # Model definition
 
-model = keras.Sequential([
-        keras.layers.Flatten(28,28),
-        keras.layers.Dense(128,activation='relu'),
-        keras.layers.Dense(128,activation='relu'),
-        keras.layers.Dense(10,activation='softmax')
+model = nn.Sequential([
+        nn.Flatten(28,28),
+        nn.ReLU(128),
+        nn.ReLU(128),
+        nn.Softmax(10)
 ])
+
 
 # model compilation
 
-model.compile(optimizer='adam',metrics=['accuracy'])
+model = torch.compile(model=model)
+
+# Loss and Optimizer
+
+criteria = nn.CrossEntropyLoss()
+Optimizer = torch.optim.Adam()
 
 # model training
 
-History = model.fit(x_train,y_train,batch_size=32,epochs=3)
-
-# model evaluation
-
-plt.plot(History.history['loss'], lable="Training loss")
-plt.ylabel("Loss")
-plt.xlabel("epochs")
-plt.show()
+for epochs in range(3):
+    pass
