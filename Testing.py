@@ -1,6 +1,5 @@
 from DataLoading import test_data
 import torch
-
 import matplotlib.pyplot as plt
 
 
