@@ -1,4 +1,4 @@
-from Model import model
+from Model.Model import model
 from DataLoading import train_loader
 import torch.optim as optim
 import torch.nn as nn
