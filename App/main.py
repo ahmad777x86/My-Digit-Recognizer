@@ -6,9 +6,11 @@ from fastapi import UploadFile, File
 model = None
 
 @asynccontextmanager
-def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI):
     global model
     model = load_model()
+    yield
+
 
 app = FastAPI(lifespan=lifespan)
 
@@ -20,6 +22,7 @@ def health_check():
 async def predict(file: UploadFile = File(...)):
     image_data = await file.read()
     image = preprocess_image(image_data)
-    prediction = model(file)
+
+    prediction = model(image)
     prediction = prediction.argmax(dim=1).item()
-    return {"Prediction" : prediction}
+    return f"Prediction : {prediction}"
