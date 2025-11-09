@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from utils import load_model, preprocess_image
+from App.utils import load_model, preprocess_image
 from fastapi import UploadFile, File
 
 model = None
