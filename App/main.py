@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from App.utils import load_model, preprocess_image
 from fastapi import UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 
 model = None
 
@@ -12,7 +13,14 @@ async def lifespan(app: FastAPI):
     yield
 
 
+
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_methods=["*"],  # Allows all methods
+)
 
 @app.get('/')
 def health_check():
