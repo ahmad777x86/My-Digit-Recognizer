@@ -1,19 +1,20 @@
 import torch.nn as nn
-
+import torch.nn.functional as F
+import torch
 
 class SequentialModel(nn.Module):
     def __init__(self):
         super().__init__()
-        self.flatten = nn.Flatten()
-        self.linear1 = nn.Linear(28*28,512)
-        self.relu = nn.ReLU()
-        self.linear2 = nn.Linear(512,10)
-
-    def forward(self,x):
-        x = self.flatten(x)
-        x = self.linear1(x)
-        x = self.relu(x)
-        x = self.linear2(x)
-        return x
+        self.conv1 = nn.Conv2d(1, 32, 3, 1) 
+        self.conv2 = nn.Conv2d(32, 64, 3, 1)
+        self.fc1 = nn.Linear(64*12*12, 128)  
+        self.fc2 = nn.Linear(128, 10)
+    
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        x = F.max_pool2d(F.relu(self.conv2(x)), 2)
+        x = torch.flatten(x, 1)
+        x = F.relu(self.fc1(x))
+        return self.fc2(x)
     
 model = SequentialModel()

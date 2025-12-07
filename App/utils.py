@@ -22,7 +22,6 @@ def preprocess_image(image_data):
     image = cv2.imdecode(array, cv2.IMREAD_GRAYSCALE)
     image = cv2.resize(image,(28,28))
     image = image.astype('float32') / 255.0   
-    image = (image - 0.1307) / 0.3081
     print(f"Decoded image shape: {image.shape}")
     
     image_tensors = torch.from_numpy(image).unsqueeze(0).unsqueeze(0).float()
